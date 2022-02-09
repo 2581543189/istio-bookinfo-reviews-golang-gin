@@ -1,0 +1,10 @@
+FROM golang:alpine
+MAINTAINER hui.zhao1 hui.zhao1@qq.com"
+WORKDIR $GOPATH/src/istio-bookinfo-reviews-golang-gin
+ADD ../
+ENV GO111MODULE=on
+ENV GOPROXY="https://goproxy.io"
+ENV ENABLE_RATINGS=true
+ENV STAR_COLOR=red
+RUN go build -o istio-bookinfo-reviews-golang-gin .
+ENTRYPOINT  ["./istio-bookinfo-reviews-golang-gin"]
