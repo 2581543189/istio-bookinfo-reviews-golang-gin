@@ -3,4 +3,8 @@ MAINTAINER hui.zhao1 hui.zhao1@qq.com"
 WORKDIR $GOPATH/src/istio-bookinfo-reviews-golang-gin
 ADD . ./
 ENV ENABLE_RATINGS=true
-ENTRYPOINT  ["./istio-bookinfo-reviews-golang-gin"]
+ENV GO111MODULE=on
+ENV GOPROXY=https://goproxy.cn,direct
+RUN go build -o istio-bookinfo-reviews-golang-gin .
+RUN apk add --update curl bash && rm -rf /var/cache/apk/*
+ENTRYPOINT  ["/bin/bash", "-ce", "./istio-bookinfo-reviews-golang-gin"]
