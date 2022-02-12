@@ -64,7 +64,7 @@ var headers_to_propagate = []string{
 }
 
 type RatingsResp struct {
-	ratings Ratings `json:"ratings"`
+	Ratings *Ratings `json:"ratings"`
 }
 
 type Ratings struct {
@@ -105,14 +105,14 @@ func main() {
 	//reviews
 	r.GET("/reviews/:productId", func(c *gin.Context) {
 		productId, _ := strconv.Atoi(c.Param("productId"))
-		rr := RatingsResp{Ratings{-1, -1}}
+		rr := &RatingsResp{&Ratings{-1, -1}}
 		if ratings_enabled {
 			ratingsResponse := getRatings(productId, c)
 			if len(ratingsResponse) > 0 {
 				json.Unmarshal(ratingsResponse, rr)
 			}
 		}
-		resp := getJsonResponse(productId,rr.ratings.Reviewer1,rr.ratings.Reviewer2)
+		resp := getJsonResponse(productId,rr.Ratings.Reviewer1,rr.Ratings.Reviewer2)
 		c.String(200,resp)
 	})
 	r.Run(":9080")
