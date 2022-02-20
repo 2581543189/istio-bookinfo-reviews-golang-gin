@@ -61,6 +61,7 @@ var headers_to_propagate = []string{
 	// Application-specific headers to forward.
 	"end-user",
 	"user-agent",
+	"Cookie",
 }
 
 type RatingsResp struct {
@@ -135,7 +136,7 @@ func getRatings(productId int, c *gin.Context) []byte {
 		return resp
 	}
 	for i := range headers_to_propagate {
-		reqest.Header.Add("Cookie", c.Request.Header.Get(headers_to_propagate[i]))
+		reqest.Header.Add(headers_to_propagate[i], c.Request.Header.Get(headers_to_propagate[i]))
 	}
 
 	//处理返回结果
